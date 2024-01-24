@@ -50,7 +50,6 @@ public class HistoryController extends ParentController{
 			@RequestParam("title")   String title,
 			HttpServletResponse response){
 		System.out.println(username+" "+title);
-		//:TODO your implementation
 		HttpStatus status = null;
 		MongoClient mongoClient =null;
 		DBCollection  dbCollection=null;
@@ -82,7 +81,6 @@ public class HistoryController extends ParentController{
 	
 	private boolean isExistUser(String username ){
 		boolean result = false;
-		//:TODO your implementation
 		MongoClient mongoClient = null;
 		DBCollection  dbCollection=null;
 		BasicDBObject queryResult = new BasicDBObject();
@@ -98,7 +96,6 @@ public class HistoryController extends ParentController{
 			while (dbCursor.hasNext()) 
 			{ 
 				i++;
-				//System.out.println(i);
 				result = true;
 				dbCursor.next();
 			}
@@ -147,7 +144,6 @@ public class HistoryController extends ParentController{
 	@ResponseBody
 	@org.codehaus.jackson.map.annotate.JsonView(HistoryPair.class)
 	public  HistoryPair[] getHistoryByUser(@RequestParam("entity")    String username){
-		//:TODO your implementation
 		ArrayList<HistoryPair> historyPairs = new ArrayList<HistoryPair>();
 		MongoClient mongoClient = null;
 		DBCollection  dbCollection=null;
@@ -172,7 +168,6 @@ public class HistoryController extends ParentController{
 
 			}
 			check++;
-			//System.out.println(check);
 			mongoClient.close();
 		} catch (Exception e) {
 			System.out.println(e);
@@ -193,7 +188,6 @@ public class HistoryController extends ParentController{
 	@ResponseBody
 	@org.codehaus.jackson.map.annotate.JsonView(HistoryPair.class)
 	public  HistoryPair[] getHistoryByItems(@RequestParam("entity")    String title){
-		//:TODO your implementation
 		ArrayList<HistoryPair> historyPairs = new ArrayList<HistoryPair>();
 		MongoClient mongoClient = null;
 		DBCollection  dbCollection=null;
@@ -213,10 +207,8 @@ public class HistoryController extends ParentController{
 				DBObject theObj = dbCursor.next();
 				String credentials = (String) theObj.get("username");
 				check++;
-				//Timestamp timestamp = theObj.get("Timestamp"); -> not work because i can cast DBobject to timestamp
 				long timestamp = (long) theObj.get("Timestamp");
 				historyPairs.add(new HistoryPair(credentials,new Date(timestamp)));
-				//System.out.println(check);
 
 			}
 			mongoClient.close();
@@ -237,7 +229,6 @@ public class HistoryController extends ParentController{
 	@ResponseBody
 	@org.codehaus.jackson.map.annotate.JsonView(HistoryPair.class)
 	public  User[] getUsersByItem(@RequestParam("title") String title){
-		//:TODO your implementation
 		ArrayList<User> users = new ArrayList<User>();
 		DBCollection  dbCollection=null;
 		BasicDBObject queryResult=null;
@@ -267,7 +258,6 @@ public class HistoryController extends ParentController{
 				}
 				mongoClient.close();
 			}
-			//System.out.println(check);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -288,7 +278,6 @@ public class HistoryController extends ParentController{
 	@ResponseBody
 	public double  getItemsSimilarity(@RequestParam("title1") String title1,
 			@RequestParam("title2") String title2){
-		//:TODO your implementation
 		double ret = 0.0;
 		Set<String> userListTittle1=new HashSet<String>();
 		Set<String> userListTittle2=new HashSet<String>();
@@ -306,12 +295,7 @@ public class HistoryController extends ParentController{
 			for (int i=0;i<historyPairsTittle2.length;i++) {
 				userListTittle2.add(historyPairsTittle2[i].credentials);
 			}	
-			
-			//String[] tempUserTittle2 = userListTittle2.toArray(new String[userListTittle2.size()]);
-			//Set<String> union=  new HashSet<String>(userListTittle1);
-			//for (int i=0;i<userListTittle2.size();i++) {
-			//	union.add(tempUserTittle2[i]);
-			//}	
+				
 			
 			Set<String> union=  new HashSet<String>(userListTittle1);
 			union.addAll(userListTittle2);
